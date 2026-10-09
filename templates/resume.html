@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row align-items-center mb-5 p-4 bg-white rounded-4 shadow-sm">
+    <div class="col-md-4 text-center mb-3 mb-md-0">
+      <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Фото профілю" class="img-fluid rounded-circle profile-img shadow">
+    </div>
+    <div class="col-md-8">
+      <h1 class="display-5 fw-bold text-primary">Ірина Хортюк</h1>
+      <p class="lead text-muted">Junior Software Engineer / Web Developer</p>
+      <p class="mb-0">Захоплююся розробкою надійних вебзастосунків, бекенд-логікою та архітектурою ПЗ.</p>
+    </div>
+  </div>
+
+  <section id="about" class="resume-section mb-4 p-4 bg-white rounded-3 shadow-sm">
+    <h3 class="border-bottom pb-2 text-dark">Про себе</h3>
+    <p>
+      Цілеспрямований розробник-початківець із фундаментальною базою в галузі інженерії програмного забехпечення. Вмію швидко опановувати нові інструменти, працювати з системами контролю версій та впроваджувати чистий, семантичний код.
+    </p>
+  </section>
+
+  <section id="education" class="resume-section mb-4 p-4 bg-white rounded-3 shadow-sm">
+    <h3 class="border-bottom pb-2 text-dark">Освіта</h3>
+    <div class="mb-2">
+      <h5 class="fw-bold mb-1">Бакалавр: Інженерія програмного забезпечення</h5>
+      <span class="text-muted">Університет | 2024 — 2028</span>
+      <p class="mt-2 mb-0">Вивчення алгоритмів, структур даних, реляційних баз даних та вебтехнологій.</p>
+    </div>
+  </section>
+
+  <section id="skills" class="resume-section mb-4 p-4 bg-white rounded-3 shadow-sm">
+    <h3 class="border-bottom pb-2 text-dark">Навички та Технології</h3>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <h6 class="fw-bold text-secondary">Мови та Бекенд</h6>
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-primary">Python</span>
+          <span class="badge bg-secondary">Flask</span>
+          <span class="badge bg-dark">SQL</span>
+          <span class="badge bg-info text-dark">REST API</span>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <h6 class="fw-bold text-secondary">Фронтенд та Інструменти</h6>
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-success">HTML5 / Semantic Web</span>
+          <span class="badge bg-warning text-dark">CSS3 / Bootstrap 5</span>
+          <span class="badge bg-danger">Git & GitHub</span>
+          <span class="badge bg-secondary">Jinja2</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="resume-section p-4 bg-white rounded-3 shadow-sm">
+    <h3 class="border-bottom pb-2 text-dark">Досвід роботи та Проєкти</h3>
+    <div class="card border-0 mb-3 bg-light">
+      <div class="card-body">
+        <h5 class="card-title fw-bold">Вебсайт-портфоліо на Flask</h5>
+        <p class="card-text">
+          Розробка вебзастосунку з багаторівневою структурою шаблонів, наслідуванням через Jinja2, динамічною маршрутизацією та кастомною стилізацією на базі Bootstrap 5.
+        </p>
+      </div>
+    </div>
+    <div class="card border-0 bg-light">
+      <div class="card-body">
+        <h5 class="card-title fw-bold">Система аналітичних запитів та баз даних</h5>
+        <p class="card-text">
+          Проєктування реляційних схем, написання оптимізованих збережених процедур та аналітичних запитів.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
