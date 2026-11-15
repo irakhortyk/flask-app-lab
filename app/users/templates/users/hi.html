@@ -1,33 +1,113 @@
-{% extends 'base.html' %}
-
-{% block title %}Greeting Page{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="row g-4">
-    <div class="col-md-3">
-      <nav class="list-group shadow-sm">
-        <span class="list-group-item list-group-item-dark fw-bold">FlaskApp</span>
-        <a href="{{ url_for('users.greetings', name='John', age=30) }}" class="list-group-item list-group-item-action">
-          Greet John
-        </a>
-        <a href="{{ url_for('users.admin') }}" class="list-group-item list-group-item-action">
-          Admin
-        </a>
-      </nav>
-    </div>
+<div class="container my-4">
 
-    <div class="col-md-9">
-      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
-        <h2 class="display-6 fw-bold mb-3">Hello :)</h2>
-        <p class="fs-4 mb-2">User: <strong>{{ name }}</strong></p>
+    {% if page == 'login' %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4 fw-light">Login</h1>
+                <form method="POST" action="{{ url_for('users.login') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">User name</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn text-white w-100 py-2" style="background-color: #0077a2;">
+                        Sign in
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    {% elif page == 'profile' %}
+        <div class="p-4 rounded border {% if theme == 'dark' %}bg-dark text-light border-secondary{% else %}bg-white text-dark{% endif %}">
+
+            <div class="p-3 mb-3 text-white rounded d-flex flex-wrap justify-content-between align-items-center" style="background-color: #0d6efd;">
+                <h1 class="m-0 fw-normal">
+                    Ласкаво просимо до сторінки 👥 {{ username }}!
+                </h1>
+                <div class="mt-2 mt-md-0">
+                    <a href="{{ url_for('users.set_theme', theme_name='light') }}" class="btn btn-sm btn-light me-1">☀️ Світла тема</a>
+                    <a href="{{ url_for('users.set_theme', theme_name='dark') }}" class="btn btn-sm btn-dark">🌙 Темна тема</a>
+                </div>
+            </div>
+
+            <p class="{% if theme == 'dark' %}text-light{% else %}text-muted{% endif %}">
+                Тут ви можете отримати інформацію та вийти з системи.
+            </p>
+
+            <form method="POST" action="{{ url_for('users.logout') }}" class="mb-4">
+                <button type="submit" class="btn btn-danger">Вийти</button>
+            </form>
+
+            <h4 class="mt-4 mb-3">Додати кукі:</h4>
+            <form method="POST" action="{{ url_for('users.profile') }}" class="mb-4">
+                <input type="hidden" name="action" value="add_cookie">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Ключ кукі:</label>
+                        <input type="text" name="cookie_key" class="form-control {% if theme == 'dark' %}bg-secondary text-white border-0{% endif %}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Значення кукі:</label>
+                        <input type="text" name="cookie_value" class="form-control {% if theme == 'dark' %}bg-secondary text-white border-0{% endif %}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Термін дії (сек):</label>
+                        <input type="number" name="cookie_max_age" class="form-control {% if theme == 'dark' %}bg-secondary text-white border-0{% endif %}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Додати кукі</button>
+            </form>
+
+            <h4 class="mt-4 mb-3">Видалити кукі за ключем:</h4>
+            <form method="POST" action="{{ url_for('users.profile') }}" class="mb-4">
+                <input type="hidden" name="action" value="delete_cookie">
+                <div class="mb-3">
+                    <label class="form-label">Ключ кукі для видалення:</label>
+                    <input type="text" name="delete_key" class="form-control {% if theme == 'dark' %}bg-secondary text-white border-0{% endif %}" required>
+                </div>
+                <button type="submit" class="btn btn-warning">Видалити кукі за ключем</button>
+            </form>
+
+            <h4 class="mt-4 mb-3">Видалити всі кукі:</h4>
+            <form method="POST" action="{{ url_for('users.profile') }}" class="mb-4">
+                <input type="hidden" name="action" value="delete_all_cookies">
+                <button type="submit" class="btn btn-danger">Видалити всі кукі</button>
+            </form>
+
+            <h4 class="mt-4 mb-3">Список всіх кукі:</h4>
+            <div class="table-responsive">
+                <table class="table table-striped {% if theme == 'dark' %}table-dark{% endif %} border">
+                    <thead>
+                        <tr>
+                            <th>Ключ</th>
+                            <th>Значення</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in cookies.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td class="text-break">{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    {% else %}
+        <h1>Hello, {{ name }}!</h1>
         {% if age %}
-          <p class="fs-5 text-success mb-0">Age: {{ age }}</p>
-        {% else %}
-          <p class="fs-5 text-danger mb-0">Age: Not provided</p>
+            <p>Age: {{ age }}</p>
         {% endif %}
-      </div>
-    </div>
-  </div>
+    {% endif %}
+
 </div>
 {% endblock %}
