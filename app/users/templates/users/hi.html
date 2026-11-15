@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Greeting Page{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-3">
+      <nav class="list-group shadow-sm">
+        <span class="list-group-item list-group-item-dark fw-bold">FlaskApp</span>
+        <a href="{{ url_for('users.greetings', name='John', age=30) }}" class="list-group-item list-group-item-action">
+          Greet John
+        </a>
+        <a href="{{ url_for('users.admin') }}" class="list-group-item list-group-item-action">
+          Admin
+        </a>
+      </nav>
+    </div>
+
+    <div class="col-md-9">
+      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+        <h2 class="display-6 fw-bold mb-3">Hello :)</h2>
+        <p class="fs-4 mb-2">User: <strong>{{ name }}</strong></p>
+        {% if age %}
+          <p class="fs-5 text-success mb-0">Age: {{ age }}</p>
+        {% else %}
+          <p class="fs-5 text-danger mb-0">Age: Not provided</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
