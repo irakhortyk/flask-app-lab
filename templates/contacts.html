@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+        <h2 class="fw-bold text-primary mb-3">Зв'яжіться зі мною</h2>
+        <p class="text-muted mb-4">
+          Заповніть форму нижче або напишіть на електронну пошту, щоб обговорити проєкт або співпрацю.
+        </p>
+
+        <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Повідомлення надіслано (тестова форма)!');">
+          <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">Ваше ім'я</label>
+            <input type="text" class="form-control" id="name" placeholder="Олександр" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email адреса</label>
+            <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label fw-semibold">Тема повідомлення</label>
+            <input type="text" class="form-control" id="subject" placeholder="Пропозиція роботи / Запитання">
+          </div>
+          <div class="mb-4">
+            <label for="message" class="form-label fw-semibold">Повідомлення</label>
+            <textarea class="form-control" id="message" rows="5" placeholder="Введіть текст вашого повідомлення..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">Надіслати повідомлення</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
