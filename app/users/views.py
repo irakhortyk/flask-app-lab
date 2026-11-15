@@ -7,6 +7,11 @@ VALID_USERS = {
     "admin": "password"
 }
 
+@users_bp.route('/hi/<string:name>')
+def greetings(name):
+    age = request.args.get('age')
+    return render_template('users/hi.html', name=name.upper(), age=age)
+
 
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -91,6 +96,6 @@ def set_theme(theme_name):
     if theme_name not in ['light', 'dark']:
         theme_name = 'light'
     response = make_response(redirect(url_for('users.profile')))
-    response.set_cookie('theme', theme_name, max_age=60 * 60 * 24 * 30)
+    response.set_cookie('theme', theme_name, max_age=2592000)
     flash(f'Тему змінено на {"темну" if theme_name == "dark" else "світлу"}!', 'success')
     return response
