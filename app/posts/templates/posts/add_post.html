@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "macros/form_macros.html" import render_field %}
+
+{% block title %}{{ title | default('Create a New Post') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-semibold">
+                {{ title | default('Create a New Post') }}
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <dl>
+                        {{ render_field(form.title, class="form-control") }}
+                        {{ render_field(form.content, class="form-control") }}
+                        {{ render_field(form.is_active) }}
+                        {{ render_field(form.publish_date, class="form-control") }}
+                        {{ render_field(form.category, class="form-select") }}
+                    </dl>
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-primary btn-sm") }}
+                    </div>
+                    <a href="{{ url_for('posts.all_posts') }}" class="btn btn-secondary btn-sm">Return to Posts</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
