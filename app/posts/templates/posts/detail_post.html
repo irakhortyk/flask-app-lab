@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4 mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="badge bg-info text-dark">Category: {{ post.category }}</span>
+        <small class="text-muted">Posted: {{ post.posted.strftime('%Y-%m-%d %H:%M:%S') if post.posted else '' }}</small>
+    </div>
+    <h2 class="mb-2">{{ post.title }}</h2>
+    <p class="text-muted small mb-3">Author: <strong>{{ post.author }}</strong> | Post ID: {{ post.id }}</p>
+    <hr>
+    <p class="lead" style="white-space: pre-line;">{{ post.content }}</p>
+
+    <div class="d-flex gap-2 mt-4">
+        <a href="{{ url_for('posts.update_post', id=post.id) }}" class="btn btn-warning">Edit</a>
+        <a href="{{ url_for('posts.delete_post', id=post.id) }}" class="btn btn-danger">Delete</a>
+        <a href="{{ url_for('posts.all_posts') }}" class="btn btn-secondary ms-auto">Return to Posts</a>
+    </div>
+</div>
+{% endblock %}
