@@ -1,25 +1,101 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Каталог товарів{% endblock %}
+{% macro render_field(field) %}
+<div class="mb-3">
+    <dt class="fw-semibold mb-1">{{ field.label }}</dt>
+    {% if field.errors %}
+        <dd>
+            {{ field(style="border-color: #dc3545;", **kwargs) | safe }}
+            <ul class="list-group mt-1">
+                {% for error in field.errors %}
+                    <li class="list-group-item list-group-item-danger py-1 small">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    {% else %}
+        <dd>{{ field(**kwargs) | safe }}</dd>
+    {% endif %}
+</div>
+{% endmacro %}
 
 {% block content %}
-<div class="container py-5">
-  <h2 class="fw-bold text-primary mb-4">Каталог товарів</h2>
-  <div class="row g-4">
-    {% for product in products %}
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm rounded-4">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title fw-bold">{{ product.name }}</h5>
-            <h6 class="card-subtitle mb-3 text-success fw-semibold">${{ product.price }}</h6>
-            <p class="card-text text-muted flex-grow-1">{{ product.content }}</p>
-            <a href="{{ url_for('products.detail_product', product_id=product.id) }}" class="btn btn-outline-primary mt-3">
-              Детальніше
-            </a>
-          </div>
+<div class="container my-4">
+
+    {% if mode in ['add', 'edit'] %}
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="card shadow-sm p-4">
+                    <h2 class="mb-4">
+                        {% if mode == 'add' %}Додати новий товар{% else %}Редагувати товар #{{ product.id }}{% endif %}
+                    </h2>
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+                        <dl>
+                            {{ render_field(form.name, class="form-control") }}
+                            {{ render_field(form.category, class="form-select") }}
+                            {{ render_field(form.price, class="form-control", step="0.01") }}
+                            {{ render_field(form.quantity, class="form-control") }}
+                            {{ render_field(form.content, class="form-control") }}
+                            {{ render_field(form.image, class="form-control") }}
+                        </dl>
+
+                        {% if mode == 'edit' and product.image %}
+                            <div class="mb-3">
+                                <p class="text-muted small mb-1">Поточне зображення (залишиться, якщо не вибрати нове):</p>
+                                <img src="{{ url_for('products.static', filename=product.image) }}" alt="{{ product.name }}" class="img-thumbnail" style="max-height: 120px;">
+                            </div>
+                        {% endif %}
+
+                        <div class="d-flex gap-2 mt-3">
+                            {{ form.submit(class="btn btn-primary") }}
+                            <a href="{{ url_for('products.list_products') }}" class="btn btn-secondary">Скасувати</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+
+    {% else %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Список товарів</h1>
+            <a href="{{ url_for('products.add_product') }}" class="btn btn-success">+ Додати товар</a>
+        </div>
+
+        {% if products %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for item in products %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        {% if item.image %}
+                            <img src="{{ url_for('products.static', filename=item.image) }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-light text-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span>Немає зображення</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-info text-dark align-self-start mb-2">{{ item.category }}</span>
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text fw-bold text-primary mb-1">{{ "%.2f"|format(item.price) }} грн</p>
+                            <p class="card-text small text-muted mb-1">Кількість: {{ item.quantity }} шт.</p>
+                            <p class="card-text small text-muted mb-3">Додано: {{ item.created_at }}</p>
+
+                            <div class="mt-auto d-flex gap-2">
+                                <a href="{{ url_for('products.detail_product', id=item.id) }}" class="btn btn-sm btn-outline-primary">Детальніше</a>
+                                <a href="{{ url_for('products.edit_product', id=item.id) }}" class="btn btn-sm btn-outline-warning">Редагувати</a>
+                                <form method="POST" action="{{ url_for('products.delete_product', id=item.id) }}" onsubmit="return confirm('Ви впевнені, що хочете видалити цей товар?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Видалити</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">У базі поки немає жодного товару. Натисніть «Додати товар», щоб створити перший запис.</div>
+        {% endif %}
+    {% endif %}
+
 </div>
 {% endblock %}
