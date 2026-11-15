@@ -1,0 +1,24 @@
+{% macro render_field(field) %}
+<div class="mb-3">
+    {% if field.type == 'BooleanField' %}
+        <div class="form-check">
+            {{ field(class="form-check-input") }}
+            {{ field.label(class="form-check-label") }}
+        </div>
+    {% else %}
+        <dt class="fw-normal mb-1">{{ field.label }}</dt>
+        {% if field.errors %}
+            <dd>
+                {{ field(style="background-color: #fff8f8; border-color: red;", **kwargs) | safe }}
+                <ul class="list-group mt-1">
+                    {% for error in field.errors %}
+                        <li class="list-group-item list-group-item-danger py-1 small">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </dd>
+        {% else %}
+            <dd>{{ field(**kwargs) | safe }}</dd>
+        {% endif %}
+    {% endif %}
+</div>
+{% endmacro %}
