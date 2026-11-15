@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Головна сторінка{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+    <h1 class="display-5 fw-bold text-primary mb-3">Головна сторінка</h1>
+    <p class="lead text-muted">
+      Вебзастосунок на Flask із модульною структурою проєкту та використанням Blueprints.
+    </p>
+    <div class="alert alert-secondary mt-3 mb-4">
+      <strong>Ваш User-Agent:</strong> {{ agent }}
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{{ url_for('resume') }}" class="btn btn-primary">Переглянути резюме</a>
+      <a href="{{ url_for('contacts') }}" class="btn btn-outline-secondary">Контакти</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
