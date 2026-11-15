@@ -1,21 +1,37 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ product.name }} — Деталі товару{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
-        <span class="badge bg-secondary mb-2">ID товару: #{{ product.id }}</span>
-        <h1 class="display-6 fw-bold text-primary mb-2">{{ product.name }}</h1>
-        <p class="fs-4 text-success fw-bold mb-4">Ціна: ${{ product.price }}</p>
-        <p class="fs-5 mb-4">{{ product.content }}</p>
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-outline-secondary">
-          &larr; Повернутися до списку товарів
-        </a>
-      </div>
+<div class="container my-4">
+    <div class="card shadow-sm p-4">
+        <div class="row g-4">
+            <div class="col-md-5 text-center">
+                {% if product.image %}
+                    <img src="{{ url_for('products.static', filename=product.image) }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 350px; object-fit: contain;">
+                {% else %}
+                    <div class="bg-light text-secondary d-flex align-items-center justify-content-center rounded" style="height: 280px;">
+                        <span>Зображення відсутнє</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-7">
+                <span class="badge bg-info text-dark mb-2">{{ product.category }}</span>
+                <h2>{{ product.name }}</h2>
+                <p class="text-muted small">ID товару: {{ product.id }} | Додано: {{ product.created_at }}</p>
+                <h4 class="text-primary my-3">{{ "%.2f"|format(product.price) }} грн</h4>
+                <p><strong>Кількість у наявності:</strong> {{ product.quantity }} од.</p>
+                <hr>
+                <h5>Опис товару:</h5>
+                <p class="text-secondary" style="white-space: pre-line;">{{ product.content }}</p>
+
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{{ url_for('products.edit_product', id=product.id) }}" class="btn btn-warning">Редагувати</a>
+                    <form method="POST" action="{{ url_for('products.delete_product', id=product.id) }}" onsubmit="return confirm('Підтвердити видалення товару?');">
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
+                    <a href="{{ url_for('products.list_products') }}" class="btn btn-secondary ms-auto">Назад до списку</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
