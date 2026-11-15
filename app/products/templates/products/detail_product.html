@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} — Деталі товару{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="p-4 p-md-5 bg-white rounded-4 shadow-sm">
+        <span class="badge bg-secondary mb-2">ID товару: #{{ product.id }}</span>
+        <h1 class="display-6 fw-bold text-primary mb-2">{{ product.name }}</h1>
+        <p class="fs-4 text-success fw-bold mb-4">Ціна: ${{ product.price }}</p>
+        <p class="fs-5 mb-4">{{ product.content }}</p>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-outline-secondary">
+          &larr; Повернутися до списку товарів
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

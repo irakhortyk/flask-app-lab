@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог товарів{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="fw-bold text-primary mb-4">Каталог товарів</h2>
+  <div class="row g-4">
+    {% for product in products %}
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">{{ product.name }}</h5>
+            <h6 class="card-subtitle mb-3 text-success fw-semibold">${{ product.price }}</h6>
+            <p class="card-text text-muted flex-grow-1">{{ product.content }}</p>
+            <a href="{{ url_for('products.detail_product', product_id=product.id) }}" class="btn btn-outline-primary mt-3">
+              Детальніше
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
