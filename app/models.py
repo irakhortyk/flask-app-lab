@@ -1,0 +1,1 @@
+from app.posts.models import Post  # noqa: F401
