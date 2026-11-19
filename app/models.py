@@ -1,4 +1,5 @@
-from sqlalchemy import Integer, String, Float, Boolean, ForeignKey
+from datetime import datetime
+from sqlalchemy import Integer, String, Float, Boolean, DateTime, ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app import db
 from app.posts.models import Post  # noqa: F401
@@ -24,6 +25,11 @@ class Product(db.Model):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
     active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
 
     category_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id"))
     category: Mapped["Category"] = relationship("Category", back_populates="products")
